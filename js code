@@ -1,0 +1,61 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+  
+    // Function to create a new task
+    const createTask = (taskText) => {
+      const taskItem = document.createElement('li');
+      taskItem.classList.add('task-item');
+      taskItem.classList.add('enter-animation');
+  
+      const taskTextNode = document.createElement('span');
+      taskTextNode.textContent = taskText;
+  
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.addEventListener('click', () => deleteTask(taskItem));
+  
+      taskItem.appendChild(taskTextNode);
+      taskItem.appendChild(deleteBtn);
+  
+      taskItem.addEventListener('click', () => toggleTaskCompletion(taskItem));
+  
+      taskList.appendChild(taskItem);
+  
+      setTimeout(() => taskItem.classList.remove('enter-animation'), 300); // Animation delay
+    };
+  
+    // Function to delete a task
+    const deleteTask = (taskItem) => {
+      taskItem.classList.add('leave-animation');
+      setTimeout(() => taskItem.remove(), 300); // Wait for animation to finish
+    };
+  
+    // Function to toggle task completion
+    const toggleTaskCompletion = (taskItem) => {
+      taskItem.classList.toggle('completed');
+    };
+  
+    // Event listener for adding a task
+    addTaskBtn.addEventListener('click', () => {
+      const taskText = taskInput.value.trim();
+      if (taskText !== '') {
+        createTask(taskText);
+        taskInput.value = ''; // Clear input field
+      }
+    });
+  
+    // Event listener for enter key in input field
+    taskInput.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        const taskText = taskInput.value.trim();
+        if (taskText !== '') {
+          createTask(taskText);
+          taskInput.value = ''; // Clear input field
+        }
+      }
+    });
+  });
+  
